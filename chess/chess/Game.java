@@ -15,9 +15,12 @@ public class Game extends Canvas implements Runnable{
 	
 	private boolean running = false;
 	
+	private Handler handler;
+	
 	public Game()
 	{
 		new Window(WIDTH, HEIGHT, "gamestuff",this);
+		handler = new Handler();
 	}
 	
 	public synchronized void start()
@@ -64,12 +67,12 @@ public class Game extends Canvas implements Runnable{
 				frames = 0;
 			}
 		}
-		//stop();
+		stop();
 	}
 	
 	private void tick()
 	{
-		
+		handler.tick();
 	}
 	
 	private void render()
@@ -84,6 +87,8 @@ public class Game extends Canvas implements Runnable{
 		
 		g.setColor(Color.BLACK);
 		g.fillRect(0,0,WIDTH,HEIGHT);
+		
+		handler.render(g);
 		
 		g.dispose();
 		bs.show();
