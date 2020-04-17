@@ -39,6 +39,8 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, M
 
 	public void update()
 	{
+		scroll = 0; // resets scroll whell value to 0 (neutral)
+		
 		for(int i = 0; i <NUM_KEYS; i++)
 		{
 			keysLast[i] = keys[i];

@@ -8,6 +8,7 @@ public class GameContainer implements Runnable {
 	private Window window;
 	private Renderer renderer;
 	private Input input;
+	private AbstractGame game;
 	private boolean running = false;
 	private final double UPDATE_CAP = 1.0/60.0;
 	
@@ -15,9 +16,9 @@ public class GameContainer implements Runnable {
 	private float scale = 3f;
 	private String title = "MajEngine v1.0";
 	
-	public GameContainer()
+	public GameContainer(AbstractGame game)
 	{
-		
+		this.game = game;
 	}
 	
 	public void start()
@@ -64,6 +65,9 @@ public class GameContainer implements Runnable {
 			{
 				unprocessedTime -= UPDATE_CAP;
 				render = true;
+				
+				game.update(this, (float)UPDATE_CAP);
+				input.update();
 				if(frameTime>=1.0)
 				{
 					frameTime = 0;
@@ -72,12 +76,7 @@ public class GameContainer implements Runnable {
 					System.out.println(" FPS: " + fps);
 				}
 				
-				//TODO: Update Game
-				if(input.isKey(KeyEvent.VK_A))
-				{
-					System.out.println("A is pressed!");
-				}
-				input.update();
+				
 				
 			}
 			
@@ -85,6 +84,7 @@ public class GameContainer implements Runnable {
 			{
 				//TODO: render game
 				renderer.clear();
+				game.render(this, renderer);
 				window.update();
 				frames++;
 			}
@@ -109,12 +109,6 @@ public class GameContainer implements Runnable {
 		
 	}
 	
-	public static void main(String args[])
-	{
-		GameContainer gc = new GameContainer();
-		gc.start();
-	}
-
 	public int getWidth() {
 		return width;
 	}
@@ -149,6 +143,10 @@ public class GameContainer implements Runnable {
 
 	public Window getWindow() {
 		return window;
+	}
+
+	public Input getInput() {
+		return input;
 	}
 }
 
